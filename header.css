@@ -10,10 +10,14 @@
   cursor: grab;
   pointer-events: all;
 
+  /* Allow mobile touch dragging */
+  touch-action: none; /* ✅ Add this line */
+
   /* Transparent when idle */
   opacity: 0.3;
   transition: top 0.1s ease, left 0.1s ease, opacity 0.4s ease;
 }
+
 
 /* Fully visible when active (drag, hover, click) */
 .bubble-header.active,

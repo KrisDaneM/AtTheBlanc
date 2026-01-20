@@ -30,7 +30,6 @@ function restoreHeaderPosition() {
     header.style.top = "20px";
   }
 
-  // Remove transform initially to prevent jumps
   header.style.transform = "none";
 }
 
@@ -41,21 +40,25 @@ window.addEventListener("DOMContentLoaded", () => {
   let page = window.location.pathname.split("/").pop();
   if (page === "") page = "index.html";
 
-  const activeBtn = Array.from(buttons).find(btn => btn.getAttribute("href") === page);
+  const activeBtn = Array.from(buttons).find(
+    btn => btn.getAttribute("href") === page
+  );
+
   if (activeBtn) {
     indicator.style.transition = "none";
     moveIndicator(activeBtn);
     activeBtn.classList.add("active");
 
     setTimeout(() => {
-      indicator.style.transition = "all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)";
+      indicator.style.transition =
+        "all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)";
     }, 50);
   }
 });
 
 // ===================== NAV BUTTON CLICK =====================
 buttons.forEach(btn => {
-  btn.addEventListener("click", (e) => {
+  btn.addEventListener("click", e => {
     const href = btn.getAttribute("href");
     e.preventDefault();
 
@@ -71,26 +74,22 @@ buttons.forEach(btn => {
   });
 });
 
-// ===================== DRAG HEADER WITH AFK EFFECT =====================
+// ===================== DRAG HEADER (DESKTOP) =====================
 let isDragging = false;
 let offsetX, offsetY;
 let idleTimer;
 
-// Activate header (show fully)
 function activateHeader() {
-  header.classList.add('active');
+  header.classList.add("active");
   clearTimeout(idleTimer);
   idleTimer = setTimeout(() => {
-    if (!isDragging) header.classList.remove('active');
-  }, 2000); // 2 seconds after last interaction
+    if (!isDragging) header.classList.remove("active");
+  }, 2000);
 }
 
-// Drag start
 header.addEventListener("mousedown", e => {
   isDragging = true;
   header.style.cursor = "grabbing";
-
-  // Remove transform during drag to avoid jump
   header.style.transform = "none";
 
   const rect = header.getBoundingClientRect();
@@ -100,40 +99,97 @@ header.addEventListener("mousedown", e => {
   activateHeader();
 });
 
-// Drag move
 document.addEventListener("mousemove", e => {
   if (!isDragging) return;
-  activateHeader();
 
   let left = e.clientX - offsetX;
   let top = e.clientY - offsetY;
 
   const maxLeft = window.innerWidth - header.offsetWidth;
   const maxTop = window.innerHeight - header.offsetHeight;
-  left = Math.max(0, Math.min(left, maxLeft));
-  top = Math.max(0, Math.min(top, maxTop));
 
-  header.style.left = left + "px";
-  header.style.top = top + "px";
+  header.style.left = Math.max(0, Math.min(left, maxLeft)) + "px";
+  header.style.top = Math.max(0, Math.min(top, maxTop)) + "px";
+
+  activateHeader();
 });
 
-// Drag end
 document.addEventListener("mouseup", () => {
   if (!isDragging) return;
+
   isDragging = false;
   header.style.cursor = "grab";
-  activateHeader();
 
   localStorage.setItem("headerLeft", parseInt(header.style.left));
   localStorage.setItem("headerTop", parseInt(header.style.top));
+
+  activateHeader();
 });
 
-// Hover effects for AFK transparency
-header.addEventListener('mouseenter', activateHeader);
-header.addEventListener('mouseleave', () => {
+// ===================== DRAG HEADER (MOBILE TOUCH, SMOOTH) =====================
+let touchX = 0;
+let touchY = 0;
+let touchMoving = false;
+
+header.addEventListener("touchstart", e => {
+  isDragging = true;
+  header.style.transform = "none";
+
+  const touch = e.touches[0];
+  const rect = header.getBoundingClientRect();
+
+  offsetX = touch.clientX - rect.left;
+  offsetY = touch.clientY - rect.top;
+
+  activateHeader();
+}, { passive: false });
+
+document.addEventListener("touchmove", e => {
+  if (!isDragging) return;
+
+  const touch = e.touches[0];
+  touchX = touch.clientX;
+  touchY = touch.clientY;
+
+  if (!touchMoving) {
+    touchMoving = true;
+    requestAnimationFrame(() => {
+      let left = touchX - offsetX;
+      let top = touchY - offsetY;
+
+      const maxLeft = window.innerWidth - header.offsetWidth;
+      const maxTop = window.innerHeight - header.offsetHeight;
+
+      header.style.left = Math.max(0, Math.min(left, maxLeft)) + "px";
+      header.style.top = Math.max(0, Math.min(top, maxTop)) + "px";
+
+      activateHeader();
+      touchMoving = false;
+    });
+  }
+
+  e.preventDefault(); // prevent page scrolling while dragging
+}, { passive: false });
+
+document.addEventListener("touchend", () => {
+  if (!isDragging) return;
+
+  isDragging = false;
+  touchMoving = false;
+
+  localStorage.setItem("headerLeft", parseInt(header.style.left));
+  localStorage.setItem("headerTop", parseInt(header.style.top));
+
+  activateHeader();
+});
+
+// ===================== HOVER AFK =====================
+header.addEventListener("mouseenter", activateHeader);
+
+header.addEventListener("mouseleave", () => {
   clearTimeout(idleTimer);
   idleTimer = setTimeout(() => {
-    if (!isDragging) header.classList.remove('active');
+    if (!isDragging) header.classList.remove("active");
   }, 2000);
 });
 
@@ -144,20 +200,20 @@ window.addEventListener("resize", () => {
 
   if (!storedLeft || !storedTop) {
     const headerWidth = header.offsetWidth;
-    header.style.left = ((window.innerWidth - headerWidth) / 2) + "px";
+    header.style.left = (window.innerWidth - headerWidth) / 2 + "px";
     header.style.top = "20px";
   }
 });
 
 // ===================== FAQ ACCORDION =====================
-const faqItems = document.querySelectorAll('.faq-item');
+const faqItems = document.querySelectorAll(".faq-item");
 
 faqItems.forEach(item => {
-  const question = item.querySelector('.faq-question');
-  question.addEventListener('click', () => {
+  const question = item.querySelector(".faq-question");
+  question.addEventListener("click", () => {
     faqItems.forEach(i => {
-      if (i !== item) i.classList.remove('active');
+      if (i !== item) i.classList.remove("active");
     });
-    item.classList.toggle('active');
+    item.classList.toggle("active");
   });
 });
