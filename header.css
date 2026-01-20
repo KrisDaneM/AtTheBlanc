@@ -1,0 +1,130 @@
+/* ===================== HEADER ===================== */
+.bubble-header {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  z-index: 9999;
+  cursor: grab;
+  pointer-events: all;
+
+  /* Transparent when idle */
+  opacity: 0.3;
+  transition: top 0.1s ease, left 0.1s ease, opacity 0.4s ease;
+}
+
+/* Fully visible when active (drag, hover, click) */
+.bubble-header.active,
+.bubble-header:hover {
+  opacity: 1;
+}
+
+/* ===================== NAV CONTAINER ===================== */
+.bubble-nav {
+  position: relative;
+  display: flex;
+  background: linear-gradient(90deg, #003a77, #004b9b);
+  border-radius: 60px;
+  padding: 6px 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  pointer-events: all;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+/* Slight fade nav when header is idle */
+.bubble-header:not(.active) .bubble-nav {
+  background: linear-gradient(90deg, rgba(0,58,119,0.2), rgba(0,75,155,0.2));
+}
+
+/* ===================== NAV BUTTONS ===================== */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 15px 35px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 50px;
+  position: relative;
+  z-index: 2;
+  transition: color 0.5s ease, transform 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-btn:hover {
+  color: #ffd700;
+  transform: scale(1.08);
+}
+
+.nav-btn.active {
+  color: #003a77;
+}
+
+/* ===================== INDICATOR ===================== */
+.bubble-indicator {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 0;
+  height: calc(100% - 12px);
+  background: #ffffff;
+  border-radius: 50px;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ===================== DRAG HINT ===================== */
+.bubble-nav::after {
+  content: 'Drag';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: bounceDrag 1s infinite alternate;
+}
+
+.bubble-nav:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(2px);
+}
+
+@keyframes bounceDrag {
+  0% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(2px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 992px) {
+  .nav-btn { padding: 14px 30px; font-size: 15px; }
+  .bubble-indicator { height: calc(100% - 12px); }
+  .bubble-nav::after { font-size: 11px; bottom: -18px; }
+}
+
+@media (max-width: 768px) {
+  .nav-btn { padding: 12px 28px; font-size: 14px; }
+  .bubble-indicator { height: calc(100% - 12px); }
+  .bubble-nav::after { font-size: 10px; bottom: -16px; }
+}
+
+@media (max-width: 480px) {
+  .nav-btn { padding: 10px 22px; font-size: 13px; }
+  .bubble-indicator { height: calc(100% - 12px); }
+  .bubble-nav::after { font-size: 9px; bottom: -14px; }
+}
