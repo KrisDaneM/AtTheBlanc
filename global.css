@@ -198,7 +198,7 @@
   display: block;
   width: 90px;
   height: 4px;
-  background: #003a77;
+  background: #ffd700;
   margin: 10px auto 0;
   border-radius: 2px;
 }
@@ -400,7 +400,7 @@
 
 /* ===================== COLLAGE SECTION ===================== */
 .section_landing-collage {
-  padding: 100px 20px;
+  padding: 70px;
   background: #fdfcf7;
   text-align: center;
 }
@@ -503,4 +503,652 @@
   .section_landing-collage h2 { font-size: 1.8rem; margin-bottom: 30px; }
   .collage-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .collage-grid img { height: 120px; }
+}
+
+/* CAROUSEL */
+/* ================= FEATURED DRINKS ================= */
+
+.section_featured-drinks {
+  padding: 40px 10px 70px 10px;
+  background: #fdfcf7;
+  text-align: center;
+  overflow: hidden;
+}
+
+.section_featured-drinks h2 {
+  font-size: 3rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #003a77;
+  margin-bottom: 60px;
+}
+
+.section_featured-drinks h2::after {
+  content: '';
+  display: block;
+  width: 90px;
+  height: 4px;
+  background: #ffd700;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* ================= CAROUSEL ================= */
+
+.coverflow-carousel {
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.cf-track {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+/* ================= CARD ================= */
+
+.cf-item {
+  flex: 0 0 220px;
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #ffffff;
+
+  border: 2px solid transparent;
+  transition:
+    background 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+/* glowing layer */
+.cf-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 215, 0, 0.35),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+/* image */
+.cf-item img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.4s ease;
+}
+
+/* ================= DRINK NAME ================= */
+
+.drink-name {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 58, 119, 0.85);
+  color: #ffffff;
+  padding: 14px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.35s ease;
+}
+
+/* ================= HOVER HIGHLIGHT ================= */
+
+.cf-item:hover {
+  background: #fffdf4;
+  border-color: #ffd700;
+  box-shadow: 0 18px 45px rgba(255, 215, 0, 0.25);
+}
+
+.cf-item:hover::before {
+  opacity: 1;
+}
+
+.cf-item:hover img {
+  filter: brightness(1.08);
+}
+
+.cf-item:hover .drink-name {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .cf-item {
+    flex: 0 0 180px;
+  }
+
+  .cf-item img {
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cf-item {
+    flex: 0 0 160px;
+  }
+
+  .cf-item img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cf-item {
+    flex: 0 0 140px;
+  }
+
+  .cf-item img {
+    height: 180px;
+  }
+}
+
+/* ===================== FEATURE VIDEO REELS ===================== */
+
+.section-feature-reels {
+  padding: 90px 20px;
+  background: #fdfcf7;
+  text-align: center;
+}
+
+.section-feature-reels h2 {
+  font-size: 3rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #003a77;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-feature-reels h2::after {
+  content: '';
+  display: block;
+  width: 90px;
+  height: 4px;
+  background: #ffd700;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* ===================== GRID ===================== */
+
+.reels-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+}
+
+/* ===================== REEL CARD ===================== */
+
+.reel-card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #ffffff;
+
+  border: 2px solid #003a77;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.35s ease;
+}
+
+/* elegant hover */
+.reel-card:hover {
+  transform: translateY(-10px);
+  border-color: #ffd700;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+}
+
+/* ===================== IFRAME RATIO ===================== */
+
+.reel-card iframe {
+  width: 100%;
+  height: 520px;
+  border: none;
+  display: block;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+@media (max-width: 1100px) {
+  .reels-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section-feature-reels {
+    padding: 70px 15px;
+  }
+
+  .section-feature-reels h2 {
+    font-size: 2.3rem;
+    margin-bottom: 45px;
+  }
+
+  .reels-wrapper {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .reel-card iframe {
+    height: 480px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-feature-reels h2 {
+    font-size: 2rem;
+  }
+
+  .reel-card iframe {
+    height: 430px;
+  }
+}
+
+/* ===================== VISIT SECTION ===================== */
+.visit-section {
+  padding: 80px 20px;
+  background: #fdfcf7;
+}
+
+.visit-section h2 {
+  font-size: 2.8rem;
+  font-family: 'Playfair Display', serif;
+  color: #003a77;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.visit-section h2::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #ffd700;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* ===================== VISIT WRAPPER (MAP + INFO) ===================== */
+.visit-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* MAP CARD */
+.visit-card.visit-map {
+  flex: 1.2;
+  min-width: 300px;
+  height: 520px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+}
+
+.visit-card.visit-map iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* INFO PANEL */
+.visit-card.visit-info {
+  flex: 0.8;
+  min-width: 260px;
+  height: 520px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* GRID INSIDE INFO */
+.visit-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 18px;
+}
+
+/* INFO ITEMS */
+.info-item {
+  display: grid;
+  grid-template-columns: 45px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.info-item i {
+  font-size: 1.5rem;
+  color: #003a77;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-item h4 {
+  font-size: 1.25rem;
+  color: #003a77;
+  margin-bottom: 2px;
+  font-family: 'Playfair Display', serif;
+}
+
+.info-item p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* SOCIAL ICONS */
+.visit-social {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.visit-social a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #003a77;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.35s ease;
+}
+
+.visit-social a:hover {
+  background: #ffd700;
+  color: #003a77;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(255,215,0,0.35);
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 992px) {
+  .visit-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .visit-card.visit-map,
+  .visit-card.visit-info {
+    height: 480px;
+  }
+}
+
+@media (max-width: 768px) {
+  .visit-card.visit-map,
+  .visit-card.visit-info {
+    height: 450px;
+  }
+}
+
+@media (max-width: 480px) {
+  .visit-section h2 {
+    font-size: 2.2rem;
+  }
+
+  .visit-card.visit-info {
+    padding: 20px;
+  }
+
+  .info-item h4 {
+    font-size: 1.15rem;
+  }
+
+  .info-item p {
+    font-size: 0.9rem;
+  }
+
+  .visit-social a {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+/* ===================== ABOUT HERO ===================== */
+.about-hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.about-hero-bg {
+  background: url('images/abouthero.jpg') center center no-repeat;
+  background-size: cover; /* keep full coverage on larger screens */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  filter: brightness(0.6);
+  transition: background-position 0.3s ease, background-size 0.3s ease;
+}
+
+/* Overlay for readability */
+.about-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.25);
+  z-index: 1;
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  max-width: 900px;
+  padding: 0 20px;
+  font-family: 'Playfair Display', serif;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.about-hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.about-hero-content p {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  font-family: 'Roboto', sans-serif;
+  opacity: 0.9;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 992px) {
+  .about-hero {
+    height: 60vh;
+  }
+  .about-hero-bg {
+    background-position: center top; /* shift image up slightly */
+  }
+  .about-hero-content h1 {
+    font-size: 2.8rem;
+  }
+  .about-hero-content p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    height: 50vh;
+  }
+  .about-hero-bg {
+    background-size: cover;
+    background-position: center center;
+  }
+  .about-hero-content h1 {
+    font-size: 2.2rem;
+  }
+  .about-hero-content p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero {
+    height: 40vh;
+  }
+  .about-hero-bg {
+    background-size: cover;
+    background-position: top center; /* show the top part of the image for small screens */
+  }
+  .about-hero-content h1 {
+    font-size: 1.8rem;
+  }
+  .about-hero-content p {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* ===================== ABOUT BLANC SECTION ===================== */
+.about-blanc-section-interactive {
+  padding: 80px 20px 10px 20px;
+  background: #fdfcf7;
+  display: flex;
+  justify-content: center;
+}
+
+.about-blanc-wrapper {
+  max-width: 1100px;
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.about-blanc-image-wrapper {
+  flex: 0 0 350px;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.about-blanc-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-blanc-text-wrapper {
+  flex: 1 1 500px;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  line-height: 1.7;
+  text-align: center; /* Centered text */
+}
+
+.about-blanc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #003a77;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Gold underline like "Visit Our Cafe" */
+.about-blanc-title::after {
+  content: '';
+  display: block;
+  width: 80px; /* underline width */
+  height: 4px; /* underline thickness */
+  background: #ffd700;
+  margin: 10px auto 0; /* spacing from title */
+  border-radius: 2px;
+}
+
+.about-blanc-story p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto; /* center paragraph */
+  line-height: 1.8;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 992px) {
+  .about-blanc-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .about-blanc-image-wrapper {
+    width: 300px;
+    height: 300px;
+  }
+
+  .about-blanc-text-wrapper {
+    text-align: center;
+  }
+
+  .about-blanc-title {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-blanc-image-wrapper {
+    width: 220px;
+    height: 220px;
+  }
+
+  .about-blanc-title {
+    font-size: 2rem;
+  }
+
+  .about-blanc-story p {
+    font-size: 0.95rem;
+  }
 }

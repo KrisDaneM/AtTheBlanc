@@ -32,6 +32,7 @@
   background: linear-gradient(90deg, #003a77, #004b9b);
   border-radius: 60px;
   padding: 6px 12px;
+  padding-right: 17px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
   pointer-events: all;
   overflow: hidden;

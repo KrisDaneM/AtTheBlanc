@@ -217,3 +217,120 @@ faqItems.forEach(item => {
     item.classList.toggle("active");
   });
 });
+
+
+// CAROUSEL
+// ===================== FEATURED DRINKS CAROUSEL =====================
+
+const carousel = document.querySelector('.coverflow-carousel');
+const track = document.querySelector('.cf-track');
+const originalItems = [...track.children];
+
+let isDraggingCarousel = false;
+let isHoveringCarousel = false;
+
+let startX = 0;
+let scrollStart = 0;
+
+let lastTime = 0;
+let speed = 30; // pixels per second (smooth)
+
+// ===================== ADD DRINK NAMES =====================
+originalItems.forEach(item => {
+  const img = item.querySelector('img');
+  const label = document.createElement('div');
+  label.className = 'drink-name';
+  label.textContent = img.alt;
+  item.appendChild(label);
+});
+
+// ===================== DUPLICATE ITEMS =====================
+function buildInfiniteCarousel() {
+  track.innerHTML = '';
+
+  let totalWidth = 0;
+  let loops = 0;
+
+  while (totalWidth < carousel.offsetWidth * 3 && loops < 20) {
+    originalItems.forEach(item => {
+      track.appendChild(item.cloneNode(true));
+    });
+    totalWidth = track.scrollWidth;
+    loops++;
+  }
+
+  carousel.scrollLeft = track.scrollWidth / 2;
+}
+
+// ===================== AUTO MOVE (TIME BASED) =====================
+function animateCarousel(time) {
+  if (!lastTime) lastTime = time;
+  const delta = time - lastTime;
+  lastTime = time;
+
+  if (!isDraggingCarousel && !isHoveringCarousel) {
+    carousel.scrollLeft += (speed * delta) / 1000;
+
+    if (carousel.scrollLeft >= track.scrollWidth / 1.5) {
+      carousel.scrollLeft = carousel.scrollLeft / 2;
+    }
+  }
+
+  requestAnimationFrame(animateCarousel);
+}
+
+// ===================== HOVER CONTROL =====================
+carousel.addEventListener('mouseenter', () => {
+  isHoveringCarousel = true;
+});
+
+carousel.addEventListener('mouseleave', () => {
+  isHoveringCarousel = false;
+});
+
+// ===================== DRAG =====================
+carousel.addEventListener('mousedown', e => {
+  isDraggingCarousel = true;
+  startX = e.pageX - carousel.offsetLeft;
+  scrollStart = carousel.scrollLeft;
+});
+
+carousel.addEventListener('mousemove', e => {
+  if (!isDraggingCarousel) return;
+  const x = e.pageX - carousel.offsetLeft;
+  carousel.scrollLeft = scrollStart + (startX - x);
+});
+
+carousel.addEventListener('mouseup', () => {
+  isDraggingCarousel = false;
+});
+
+carousel.addEventListener('mouseleave', () => {
+  isDraggingCarousel = false;
+});
+
+// ===================== TOUCH =====================
+carousel.addEventListener('touchstart', e => {
+  isDraggingCarousel = true;
+  startX = e.touches[0].pageX - carousel.offsetLeft;
+  scrollStart = carousel.scrollLeft;
+});
+
+carousel.addEventListener('touchmove', e => {
+  if (!isDraggingCarousel) return;
+  const x = e.touches[0].pageX - carousel.offsetLeft;
+  carousel.scrollLeft = scrollStart + (startX - x);
+});
+
+carousel.addEventListener('touchend', () => {
+  isDraggingCarousel = false;
+});
+
+// ===================== INIT =====================
+window.addEventListener('DOMContentLoaded', () => {
+  buildInfiniteCarousel();
+  requestAnimationFrame(animateCarousel);
+});
+
+window.addEventListener('resize', buildInfiniteCarousel);
+
